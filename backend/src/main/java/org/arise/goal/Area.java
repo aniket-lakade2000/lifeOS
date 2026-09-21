@@ -1,0 +1,13 @@
+package org.arise.goal;
+
+public enum Area {
+    CARRER,
+    HEALTH,
+    RELATIONSHIP,
+    FINANCE,
+    PERSONAL_DEVELOPMENT,
+    SPIRITUALITY,
+    FUN_RECREATION,
+    PHYSICAL_ENVIRONMENT,
+    COMMUNITY_INVOLVEMENT
+}
