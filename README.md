@@ -1,2 +1,2 @@
 # lifeOS
-Booking management tool for the professional
+A overall app to manage all your needs with respect to your wellbeing
