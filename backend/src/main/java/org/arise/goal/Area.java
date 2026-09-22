@@ -1,7 +1,7 @@
 package org.arise.goal;
 
 public enum Area {
-    CARRER,
+    CAREER,
     HEALTH,
     RELATIONSHIP,
     FINANCE,
