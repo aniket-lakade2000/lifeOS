@@ -2,6 +2,7 @@ package org.arise;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.arise.goal.Area;
+import org.arise.goal.GoalRepository;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.goal.dto.UpdateGoalRequest;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GoalControllerIT extends IntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
+    @Autowired
+    GoalRepository goalRepository;
 
     @Test
     void createGoal_blankTitle_returns400() throws Exception {
@@ -48,6 +51,24 @@ class GoalControllerIT extends IntegrationTest {
                         .content("{ \"title\": \"Missing closing brace\" "))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Malformed request body"));
+    }
+
+    @Test
+    void createGoal_exceedsMaxActive_returns409() throws Exception {
+        goalRepository.deleteAll();
+        for (int i = 0; i < 3; i++) {
+            var r = new CreateGoalRequest("Goal " + i, null, Area.CAREER, (short) 1, null);
+            mockMvc.perform(post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(r)))
+                    .andExpect(status().isCreated());
+        }
+
+        var fourth = new CreateGoalRequest("Goal 4", null, Area.CAREER, (short) 1, null);
+        mockMvc.perform(post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(fourth)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").value("Cannot have more than 3 active goals"));
     }
 
     @Test

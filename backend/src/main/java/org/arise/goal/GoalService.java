@@ -1,5 +1,6 @@
 package org.arise.goal;
 
+import org.arise.common.exception.ConflictException;
 import org.arise.common.exception.NotFoundException;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.goal.dto.GoalResponse;
@@ -16,7 +17,12 @@ public class GoalService {
         this.goalRepository = goalRepository;
     }
 
+    private static final int MAX_ACTIVE_GOALS = 3;
+
     public GoalResponse create(CreateGoalRequest r) {
+        if (goalRepository.countByStatus(GoalStatus.ACTIVE) >= MAX_ACTIVE_GOALS) {
+            throw new ConflictException("Cannot have more than " + MAX_ACTIVE_GOALS + " active goals");
+        }
         return GoalMapper.toResponse(goalRepository.save(GoalMapper.toEntity(r)));
     }
 
