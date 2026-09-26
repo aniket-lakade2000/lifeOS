@@ -1,11 +1,10 @@
 package org.arise.goal;
 
+import org.arise.common.exception.NotFoundException;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.goal.dto.GoalResponse;
 import org.arise.goal.dto.UpdateGoalRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -41,6 +40,6 @@ public class GoalService {
 
     private Goal findOrThrow(Long id) {
         return goalRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Goal not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Goal not found: " + id));
     }
 }
