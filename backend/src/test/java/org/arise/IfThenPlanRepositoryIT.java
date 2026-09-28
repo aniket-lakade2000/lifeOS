@@ -27,12 +27,12 @@ public class IfThenPlanRepositoryIT extends IntegrationTest {
 
         IfThenPlan plan = new IfThenPlan();
         plan.setGoal(savedGoal);
-        plan.setTrigger("I skip 2 days in a row");
+        plan.setPlanTrigger("I skip 2 days in a row");
         plan.setResponse("Do 15 minutes of the smallest next action");
         ifThenPlanRepository.save(plan);
 
         List<IfThenPlan> plans = ifThenPlanRepository.findByGoalId(savedGoal.getId());
         assertThat(plans).hasSize(1);
-        assertThat(plans.get(0).getTrigger()).isEqualTo("I skip 2 days in a row");
+        assertThat(plans.get(0).getPlanTrigger()).isEqualTo("I skip 2 days in a row");
     }
 }
