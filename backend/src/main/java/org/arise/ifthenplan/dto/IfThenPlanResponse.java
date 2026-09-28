@@ -5,7 +5,7 @@ import java.time.Instant;
 public record IfThenPlanResponse(
         Long id,
         Long goalId,
-        String trigger,
+        String planTrigger,
         String response,
         Instant createdAt,
         Instant updatedAt

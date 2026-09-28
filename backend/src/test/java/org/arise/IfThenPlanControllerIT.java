@@ -40,14 +40,14 @@ class IfThenPlanControllerIT extends IntegrationTest {
 
         mockMvc.perform(get("/api/goals/{goalId}/if-then-plans", goalId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].trigger").value("I skip 2 days"));
+                .andExpect(jsonPath("$[0].planTrigger").value("I skip 2 days"));
 
         var update = new UpdateIfThenPlanRequest("I skip 3 days", "Do 5 minutes");
         mockMvc.perform(put("/api/goals/{goalId}/if-then-plans/{planId}", goalId, planId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(update)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.trigger").value("I skip 3 days"));
+                .andExpect(jsonPath("$.planTrigger").value("I skip 3 days"));
 
         mockMvc.perform(delete("/api/goals/{goalId}/if-then-plans/{planId}", goalId, planId))
                 .andExpect(status().isNoContent());
@@ -57,7 +57,7 @@ class IfThenPlanControllerIT extends IntegrationTest {
 
     @Test
     void create_goalNotFound_returns404() throws Exception {
-        var create = new CreateIfThenPlanRequest("trigger", "response");
+        var create = new CreateIfThenPlanRequest("planTrigger", "response");
         mockMvc.perform(post("/api/goals/999999/if-then-plans")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(create)))
@@ -69,7 +69,7 @@ class IfThenPlanControllerIT extends IntegrationTest {
         long goal1 = createGoal();
         long goal2 = createGoal();
 
-        var create = new CreateIfThenPlanRequest("trigger", "response");
+        var create = new CreateIfThenPlanRequest("planTrigger", "response");
         String res = mockMvc.perform(post("/api/goals/{goalId}/if-then-plans", goal1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(create)))
