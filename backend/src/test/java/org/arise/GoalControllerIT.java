@@ -73,6 +73,7 @@ class GoalControllerIT extends IntegrationTest {
 
     @Test
     void fullCrudFlow() throws Exception {
+        goalRepository.deleteAll();
         var create = new CreateGoalRequest("Learn LLD", null, Area.CAREER, (short)2, "Read book");
         String res = mockMvc.perform(post("/api/goals").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(create)))
