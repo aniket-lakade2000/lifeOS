@@ -16,8 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GoalControllerIT extends IntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
-    @Autowired
-    GoalRepository goalRepository;
 
     @Test
     void createGoal_blankTitle_returns400() throws Exception {
@@ -55,7 +53,6 @@ class GoalControllerIT extends IntegrationTest {
 
     @Test
     void createGoal_exceedsMaxActive_returns409() throws Exception {
-        goalRepository.deleteAll();
         for (int i = 0; i < 3; i++) {
             var r = new CreateGoalRequest("Goal " + i, null, Area.CAREER, (short) 1, null);
             mockMvc.perform(post("/api/goals").contentType(MediaType.APPLICATION_JSON)
@@ -73,7 +70,6 @@ class GoalControllerIT extends IntegrationTest {
 
     @Test
     void fullCrudFlow() throws Exception {
-        goalRepository.deleteAll();
         var create = new CreateGoalRequest("Learn LLD", null, Area.CAREER, (short)2, "Read book");
         String res = mockMvc.perform(post("/api/goals").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(create)))
