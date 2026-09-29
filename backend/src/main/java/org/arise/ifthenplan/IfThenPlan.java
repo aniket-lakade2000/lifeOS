@@ -19,7 +19,7 @@ public class IfThenPlan extends BaseEntity {
     private Goal goal;
 
     @Column(nullable = false)
-    private String plan_trigger;
+    private String planTrigger;
 
     @Column(nullable = false)
     private String response;
@@ -28,8 +28,8 @@ public class IfThenPlan extends BaseEntity {
     public Long getId() { return id; }
     public Goal getGoal() { return goal; }
     public void setGoal(Goal goal) { this.goal = goal; }
-    public String getPlanTrigger() { return plan_trigger; }
-    public void setPlanTrigger(String trigger) { this.plan_trigger = trigger; }
+    public String getPlanTrigger() { return planTrigger; }
+    public void setPlanTrigger(String trigger) { this.planTrigger = trigger; }
     public String getResponse() { return response; }
     public void setResponse(String response) { this.response = response; }
 
