@@ -1,11 +1,9 @@
-package org.arise;
+package org.arise.ifthenplan;
 
+import org.arise.IntegrationTest;
 import org.arise.goal.Area;
 import org.arise.goal.Goal;
 import org.arise.goal.GoalRepository;
-import org.arise.goal.GoalStatus;
-import org.arise.ifthenplan.IfThenPlan;
-import org.arise.ifthenplan.IfThenPlanRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

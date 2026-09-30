@@ -1,14 +1,12 @@
-package org.arise;
+package org.arise.goal;
 
-import org.arise.goal.Area;
-import org.arise.goal.Goal;
-import org.arise.goal.GoalRepository;
+import org.arise.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GoalRepositoryIT extends IntegrationTest{
+public class GoalRepositoryIT extends IntegrationTest {
     @Autowired
     GoalRepository goalRepository;
 

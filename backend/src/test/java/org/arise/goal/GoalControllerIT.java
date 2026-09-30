@@ -1,8 +1,7 @@
-package org.arise;
+package org.arise.goal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.arise.goal.Area;
-import org.arise.goal.GoalRepository;
+import org.arise.IntegrationTest;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.goal.dto.UpdateGoalRequest;
 import org.junit.jupiter.api.Test;
