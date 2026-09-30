@@ -1,6 +1,7 @@
-package org.arise;
+package org.arise.ifthenplan;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.arise.IntegrationTest;
 import org.arise.goal.Area;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.ifthenplan.dto.CreateIfThenPlanRequest;
