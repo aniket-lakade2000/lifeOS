@@ -1,7 +1,7 @@
 package org.arise.checkin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.arise.IntegrationTest;
+import org.arise.AuthenticatedIntegrationTest;
 import org.arise.checkin.dto.CreateCheckInRequest;
 import org.arise.checkin.dto.UpdateCheckInRequest;
 import org.arise.goal.Area;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class CheckInControllerIT extends IntegrationTest {
+class CheckInControllerIT extends AuthenticatedIntegrationTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
