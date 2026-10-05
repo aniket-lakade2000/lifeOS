@@ -1,7 +1,7 @@
 package org.arise.goal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.arise.IntegrationTest;
+import org.arise.AuthenticatedIntegrationTest;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.goal.dto.UpdateGoalRequest;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class GoalControllerIT extends IntegrationTest {
+class GoalControllerIT extends AuthenticatedIntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
 

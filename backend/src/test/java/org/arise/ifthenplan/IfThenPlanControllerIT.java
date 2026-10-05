@@ -1,7 +1,7 @@
 package org.arise.ifthenplan;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.arise.IntegrationTest;
+import org.arise.AuthenticatedIntegrationTest;
 import org.arise.goal.Area;
 import org.arise.goal.dto.CreateGoalRequest;
 import org.arise.ifthenplan.dto.CreateIfThenPlanRequest;
@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class IfThenPlanControllerIT extends IntegrationTest {
+class IfThenPlanControllerIT extends AuthenticatedIntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
 
