@@ -48,6 +48,12 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.of(409, "Conflict", ex.getMessage(), req.getRequestURI()));
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex, HttpServletRequest req) {
+        return ResponseEntity.badRequest()
+                .body(ErrorResponse.of(400, "Bad Request", ex.getMessage(), req.getRequestURI()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest req) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
