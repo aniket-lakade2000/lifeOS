@@ -1,4 +1,5 @@
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthProvider';
+import { useAuth } from './context/authContext';
 import { Login } from './components/Login';
 
 function Dashboard() {

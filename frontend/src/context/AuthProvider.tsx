@@ -1,14 +1,6 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
+import { AuthContext } from './authContext';
 import { getAuthToken, setAuthToken, clearAuthToken, request, ApiError } from '../api/client';
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -52,9 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       clearAuthToken();
       setIsAuthenticated(false);
       if (err instanceof ApiError && err.status === 401) {
-        throw new Error('Invalid username or password.');
+        throw new Error('Invalid username or password.', { cause: err });
       }
-      throw new Error('Login failed. Please check your credentials or network.');
+      throw new Error('Login failed. Please check your credentials or network.', { cause: err });
     }
   };
 
@@ -68,12 +60,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth(): AuthContextType {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 }
