@@ -76,7 +76,7 @@ export async function request<T>(endpoint: string, options: RequestInit = {}): P
     throw new ApiError(payload);
   }
 
-  // 204 No Content support (e.g. DELETE endpoints)
+  // 204 No Content support (e.g. DELETE endpoints )
   if (response.status === 204) {
     return null as T;
   }
