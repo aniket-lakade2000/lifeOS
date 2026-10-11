@@ -1,4 +1,5 @@
 import type { GoalResponse, GoalStatus } from '../api/types';
+import { CheckInForm } from './CheckInForm';
 
 const STATUS_STYLES: Record<GoalStatus, string> = {
   ACTIVE: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
@@ -21,7 +22,7 @@ export function GoalCard({ goal }: { goal: GoalResponse }) {
             {formatArea(goal.area)}
           </span>
           <div className="flex items-center gap-1.5">
-            <span className="rounded bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-300 border border-slate-700">
+            <span className="rounded border border-slate-700 bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-300">
               P{goal.priority}
             </span>
             <span
@@ -37,17 +38,20 @@ export function GoalCard({ goal }: { goal: GoalResponse }) {
         {goal.description && (
           <p className="mt-1 line-clamp-2 text-xs text-slate-400">{goal.description}</p>
         )}
+
+        {/* Next Executable Action */}
+        {goal.nextAction && (
+          <div className="mt-4 rounded border border-indigo-500/20 bg-indigo-500/10 p-2.5 text-xs text-indigo-300">
+            <span className="font-semibold uppercase tracking-wider text-indigo-400">
+              Next Action:{' '}
+            </span>
+            {goal.nextAction}
+          </div>
+        )}
       </div>
 
-      {/* Next Executable Action */}
-      {goal.nextAction && (
-        <div className="mt-4 rounded border border-indigo-500/20 bg-indigo-500/10 p-2.5 text-xs text-indigo-300">
-          <span className="font-semibold uppercase tracking-wider text-indigo-400">
-            Next Action:{' '}
-          </span>
-          {goal.nextAction}
-        </div>
-      )}
+      {/* Daily Check-In Audit (Strictly for ACTIVE goals) */}
+      {goal.status === 'ACTIVE' && <CheckInForm goalId={goal.id} />}
     </div>
   );
 }
