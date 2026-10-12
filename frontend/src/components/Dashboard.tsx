@@ -4,12 +4,16 @@ import { fetchGoals } from '../api/goals';
 import { ApiError } from '../api/client';
 import type { GoalResponse } from '../api/types';
 import { GoalCard } from './GoalCard';
+import { GoalFormModal } from './GoalFormModal';
 
 export function Dashboard() {
   const { logout } = useAuth();
   const [goals, setGoals] = useState<GoalResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [editingGoal, setEditingGoal] = useState<GoalResponse | null>(null);
 
   useEffect(() => {
     let ignore = false;
@@ -61,6 +65,28 @@ export function Dashboard() {
     }
   };
 
+  const handleOpenCreate = () => {
+    setEditingGoal(null);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (goal: GoalResponse) => {
+    setEditingGoal(goal);
+    setIsModalOpen(true);
+  };
+
+  const handleGoalSaved = (savedGoal: GoalResponse) => {
+    setGoals((prev) => {
+      const exists = prev.some((g) => g.id === savedGoal.id);
+      const next = exists
+        ? prev.map((g) => (g.id === savedGoal.id ? savedGoal : g))
+        : [...prev, savedGoal];
+      return [...next].sort((a, b) => a.priority - b.priority);
+    });
+    setIsModalOpen(false);
+    setEditingGoal(null);
+  };
+
   const activeGoals = goals.filter((g) => g.status === 'ACTIVE');
   const otherGoals = goals.filter((g) => g.status !== 'ACTIVE');
 
@@ -105,9 +131,18 @@ export function Dashboard() {
         {!isLoading && !error && (
           <>
             <section>
-              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">
-                Active Goals
-              </h2>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+                  Active Goals
+                </h2>
+                <button
+                  type="button"
+                  onClick={handleOpenCreate}
+                  className="rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-indigo-500"
+                >
+                  + New Goal
+                </button>
+              </div>
 
               {activeGoals.length === 0 ? (
                 <div className="rounded-lg border border-dashed border-slate-800 p-8 text-center text-sm text-slate-500">
@@ -116,7 +151,11 @@ export function Dashboard() {
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {activeGoals.map((goal) => (
-                    <GoalCard key={goal.id} goal={goal} />
+                    <GoalCard
+                      key={goal.id}
+                      goal={goal}
+                      onEdit={handleOpenEdit}
+                    />
                   ))}
                 </div>
               )}
@@ -129,7 +168,11 @@ export function Dashboard() {
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {otherGoals.map((goal) => (
-                    <GoalCard key={goal.id} goal={goal} />
+                    <GoalCard
+                      key={goal.id}
+                      goal={goal}
+                      onEdit={handleOpenEdit}
+                    />
                   ))}
                 </div>
               </section>
@@ -137,6 +180,17 @@ export function Dashboard() {
           </>
         )}
       </main>
+
+      {isModalOpen && (
+        <GoalFormModal
+          initialGoal={editingGoal}
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingGoal(null);
+          }}
+          onSaved={handleGoalSaved}
+        />
+      )}
     </div>
   );
 }
