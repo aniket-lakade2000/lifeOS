@@ -12,11 +12,16 @@ function formatArea(area: string): string {
   return area.replace(/_/g, ' ');
 }
 
-export function GoalCard({ goal }: { goal: GoalResponse }) {
+interface GoalCardProps {
+  goal: GoalResponse;
+  onEdit: (goal: GoalResponse) => void;
+}
+
+export function GoalCard({ goal, onEdit }: GoalCardProps) {
   return (
     <div className="flex flex-col justify-between rounded-lg border border-slate-800 bg-slate-900 p-4 shadow-sm transition hover:border-slate-700">
       <div>
-        {/* Top Meta Row: Area, Status, Priority */}
+        {/* Top Meta Row: Area, Priority, Status, Edit */}
         <div className="flex items-center justify-between gap-2">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
             {formatArea(goal.area)}
@@ -30,6 +35,13 @@ export function GoalCard({ goal }: { goal: GoalResponse }) {
             >
               {goal.status}
             </span>
+            <button
+              type="button"
+              onClick={() => onEdit(goal)}
+              className="rounded border border-slate-700 bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-300 transition hover:bg-slate-700 hover:text-white"
+            >
+              Edit
+            </button>
           </div>
         </div>
 
